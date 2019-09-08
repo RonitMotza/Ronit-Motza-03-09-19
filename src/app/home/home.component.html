@@ -1,0 +1,46 @@
+<form [formGroup]="ownerForm" autocomplete="off" novalidate class="example-form mt-10 ">
+    <mat-form-field class="example-full-width">
+        <input type="text" matInput [(ngModel)]="searchName" (ngModelChange)="dataChanged($event)" name="search"
+            formControlName="search" id="search" placeholder="Search">
+        <mat-icon matSuffix>search</mat-icon>
+        <mat-error *ngIf="hasError('search','pattern')">English letters only</mat-error>
+    </mat-form-field>
+    <div clickOutside (clickOutside)="closeDropDown()">
+        <div *ngIf='showDropDown' class='search-drop-down '>
+            <div (click)='selectValue(location)' class='search-results ' *ngFor="let location of locations">
+                {{location.LocalizedName}},{{location.Country.LocalizedName}}
+            </div>
+        </div>
+    </div>
+</form>
+<div class="col-md-12 ">
+    <div class="card cardimg">
+        <div class="card-body">
+            <div class="card-title">
+                <span class="h2 float-left" *ngIf='showD'>
+                    {{current.LocalizedName}}
+                    <div>{{current.WeatherText}} {{current.Temperature.Metric.Value}}</div>
+                </span>
+                <span class="float-right"  *ngIf='current'>
+                    <mat-icon matSuffix class="pr-5">favorite</mat-icon>
+                    <button (click)="addToFavorite()" class="btn btn-outline-primary">Add to favorite</button>
+                </span>
+            </div>
+            <div class="pt-20">
+                <div class="row text-center" *ngIf='showD'>
+                    <div class="my-col" *ngFor="let item of current5Days;">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3 class="card-text">{{item.Date | date}}</h3>
+                                <h5 class="card-title">{{item.Day.IconPhrase}} </h5>
+                                <h4> {{(item.Temperature.Maximum.Value - 32) * 0.5556 | number}}</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

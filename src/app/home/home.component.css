@@ -1,0 +1,43 @@
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+    margin-left: 33%;
+    margin-top: 2%;
+  }
+  
+  .example-full-width {
+    width: 100%;
+  }
+  .search-drop-down {
+    position: absolute;
+    width: 29%;
+    max-height: 250px;
+    overflow-y: auto;
+    z-index: 10;
+    background-color: #F6F6F6;
+    font-family: sans-serif;
+    opacity: 0.98;
+}
+
+.search-results {
+    padding: 10px;
+}
+
+.search-results:hover {
+    background: #707070;
+}
+.my-col{
+    position: relative;
+    width: 20%;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+.mat-snack-error {
+  color: rgba(255,255,255,.7);
+    background: red;
+}
+.mat-snack-success {
+  background: green;
+  color: #F6F6F6;
+}

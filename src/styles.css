@@ -1,1 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+.pt-20{
+    padding-top:20rem !important;
+}
+.pt-10{
+    padding-top:10rem !important;
+}
+
+.cardimg{
+    background-image: url("./assets/img/card-cover.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 3%;
+    padding: 2% 0%;
+    box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+}
+
+.card {
+    border: none;
+}
