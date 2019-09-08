@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 export class HomeComponent implements OnInit {
   public ownerForm: FormGroup;
   constructor(private _homeService: HomeService, private _snackBar: MatSnackBar) {
-}
+  }
   searchName = "Tel Aviv";
   locations: any = [];
   showD = false;
@@ -21,13 +21,14 @@ export class HomeComponent implements OnInit {
   current5Days: any;
   showDropDown = false;
   allFavoriteForStorage = [];
+  existFavorite = false;
   ngOnInit() {
     this.ownerForm = new FormGroup({
       search: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z ]*$')]),
     });
 
     this.getLocalStorage();
-    var val = {Key:'215854'}
+    var val = { Key: '215854' }
     this.selectValue(val);
     console.log('allFavoriteForStorage', this.allFavoriteForStorage);
     this.showDropDown = false;
@@ -56,7 +57,7 @@ export class HomeComponent implements OnInit {
     this.showDropDown = true;
     return this._homeService.GetAutocomplete(newObj).subscribe((data: {}) => {
       this.locations = data;
-    },error => ( this.openSnackBar("Server Error !", "close")))
+    }, error => (this.openSnackBar("Server Error !", "close")))
   }
 
   closeDropDown() {
@@ -66,17 +67,26 @@ export class HomeComponent implements OnInit {
   selectValue(value) {
     if (value.Key) {
       this.currentLocation = value;
+      var exist = this.allFavoriteForStorage.filter(v => v.Key === value.Key);
+      if (exist.length) {
+        this.existFavorite = true;
+      }
+      else {
+        this.existFavorite = false;
+
+      }
+
       this._homeService.GetCurrent(value.Key).subscribe((data: {}) => {
         if (data != null) {
           this.current = data[0];
           this.showD = true;
           console.log(this.current);
-        
+
         }
         else {
           this.openSnackBar("no data", "close");
         }
-      },error => (   this.showDropDown = false, this.openSnackBar("Server Error !", "close"))
+      }, error => (this.showDropDown = false, this.openSnackBar("Server Error !", "close"))
       )
 
       this._homeService.Get5Days(value.Key).subscribe((data: {}) => {
@@ -89,19 +99,19 @@ export class HomeComponent implements OnInit {
         else {
           console.log("no data");
         }
-      },error => ( this.openSnackBar("Server Error !", "close")))
+      }, error => (this.openSnackBar("Server Error !", "close")))
       this.showDropDown = false;
     }
     else {
-     this.openSnackBar("no key provided !", "close");
+      this.openSnackBar("no key provided !", "close");
     }
   }
 
 
   addToFavorite() {
-   // debugger;
+    // debugger;
     if (this.allFavoriteForStorage.length === 0) {
-     // debugger;
+      // debugger;
       if (this.currentLocation != null) {
         this.allFavoriteForStorage.push(this.currentLocation);
         localStorage.setItem('allFavoriteForStorage', JSON.stringify(this.allFavoriteForStorage));
@@ -114,7 +124,7 @@ export class HomeComponent implements OnInit {
     else {
       for (let val of this.allFavoriteForStorage) {
         if (val.Key === this.currentLocation.Key) {
-          this.openSnackBar("Allready exist", "close");
+          this.openSnackBar("Already exist", "close");
         }
         else {
           var exist = this.allFavoriteForStorage.filter(v => v.Key === this.currentLocation.Key);
@@ -129,5 +139,16 @@ export class HomeComponent implements OnInit {
     }
 
   }
+  removeFavorite() {
+    for (let val of this.allFavoriteForStorage) {
+      if (val.Key === this.currentLocation.Key) {
+       var index =  this.allFavoriteForStorage.indexOf(this.currentLocation);
+       this.allFavoriteForStorage = this.allFavoriteForStorage.splice(index,1);
+        localStorage.setItem('allFavoriteForStorage', JSON.stringify(this.allFavoriteForStorage));
+        this.openSnackBar("Successfully Removed!", "close");
+      }
+    }
+  }
 
+  
 }
