@@ -7,8 +7,7 @@
                 <div class="row text-center" *ngIf='newArray.length > 0'>
                     <div class="col-sm-4 col-md-3 pb-3 " *ngFor="let item of newArray;">
                         <div class="card">
-                            <div class="card-body" (click)="redirectTo('productdetails', item.key)">
-                                <a routerLink="['/home',{key:item.Key}]">פרטים חשובים</a>
+                            <div class="card-body">
                                 <h3 class="card-title">{{item.city}}</h3>
                                 <h4>{{item.country}}</h4>
                                 <h6>{{item.data.LocalObservationDateTime | date}} </h6>
