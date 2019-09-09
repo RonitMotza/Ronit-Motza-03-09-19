@@ -13,7 +13,7 @@ export class HomeComponent implements OnInit {
   public ownerForm: FormGroup;
   constructor(private _homeService: HomeService, private _snackBar: MatSnackBar) {
   }
-  searchName = "Tel Aviv";
+  searchName = null;
   locations: any = [];
   showD = false;
   current: any;
@@ -22,7 +22,9 @@ export class HomeComponent implements OnInit {
   showDropDown = false;
   allFavoriteForStorage = [];
   existFavorite = false;
+
   ngOnInit() {
+    
     this.ownerForm = new FormGroup({
       search: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z ]*$')]),
     });
@@ -32,6 +34,7 @@ export class HomeComponent implements OnInit {
     this.selectValue(val);
     console.log('allFavoriteForStorage', this.allFavoriteForStorage);
     this.showDropDown = false;
+    this.searchName = "Tel Aviv";
   }
 
   getLocalStorage() {
@@ -44,7 +47,7 @@ export class HomeComponent implements OnInit {
   }
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {
-      duration: 500000,
+      duration: 1000,
       verticalPosition: 'top',
     });
   }
@@ -66,6 +69,7 @@ export class HomeComponent implements OnInit {
 
   selectValue(value) {
     if (value.Key) {
+ 
       this.currentLocation = value;
       var exist = this.allFavoriteForStorage.filter(v => v.Key === value.Key);
       if (exist.length) {
@@ -73,15 +77,13 @@ export class HomeComponent implements OnInit {
       }
       else {
         this.existFavorite = false;
-
       }
-
       this._homeService.GetCurrent(value.Key).subscribe((data: {}) => {
         if (data != null) {
           this.current = data[0];
-          this.showD = true;
+          this.showD = true; 
+          this.searchName = this.current.LocalizedName;
           console.log(this.current);
-
         }
         else {
           this.openSnackBar("no data", "close");
@@ -107,11 +109,8 @@ export class HomeComponent implements OnInit {
     }
   }
 
-
   addToFavorite() {
-    // debugger;
     if (this.allFavoriteForStorage.length === 0) {
-      // debugger;
       if (this.currentLocation != null) {
         this.allFavoriteForStorage.push(this.currentLocation);
         localStorage.setItem('allFavoriteForStorage', JSON.stringify(this.allFavoriteForStorage));
@@ -128,7 +127,6 @@ export class HomeComponent implements OnInit {
         }
         else {
           var exist = this.allFavoriteForStorage.filter(v => v.Key === this.currentLocation.Key);
-          //debugger;
           if (exist.length == 0) {
             this.allFavoriteForStorage.push(this.currentLocation);
             localStorage.setItem('allFavoriteForStorage', JSON.stringify(this.allFavoriteForStorage));
@@ -139,6 +137,7 @@ export class HomeComponent implements OnInit {
     }
 
   }
+
   removeFavorite() {
     for (let val of this.allFavoriteForStorage) {
       if (val.Key === this.currentLocation.Key) {
@@ -150,5 +149,5 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  
+
 }

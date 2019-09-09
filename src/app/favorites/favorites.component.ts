@@ -20,7 +20,7 @@ export class FavoritesComponent implements OnInit {
   }
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {
-      duration: 500000,
+      duration: 1000,
       verticalPosition: 'top',
     });
   }
@@ -44,6 +44,6 @@ export class FavoritesComponent implements OnInit {
       console.log(  this.newArray);
     }
   }
-  
+
 }
 

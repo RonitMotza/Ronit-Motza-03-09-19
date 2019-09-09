@@ -13,8 +13,8 @@
     background-image: url("./assets/img/card-cover.jpg");
     background-repeat: no-repeat;
     background-size: cover;
-    margin: 3%;
-    padding: 2% 0%;
+    margin:2%;
+    padding:8% 0%;
     box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
 }
 
